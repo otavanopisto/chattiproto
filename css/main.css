@@ -1,4 +1,22 @@
+html {
+    background-image: url('../img/main-background.png');
+    background-size: cover;
+}
+
+b {
+    font-weight: 900;
+}
+
+.card {
+    background-color: white;
+    padding: 1em;
+    border-radius: 5px;
+    border: 1px solid silver;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+
+}
+
 body {
-    max-width: 40em;
+    max-width: 50em;
     margin: 0px auto;
 }
