@@ -6,6 +6,7 @@ from oauth import OAuthSignIn
 
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'chatproto.muikkuverkko.fi'
 app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
