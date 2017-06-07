@@ -8,18 +8,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/pure-min.css">
-        <link rel="stylesheet" href="css/no-class.min.css">
-        <link rel="stylesheet" href="css/converse.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="/static/css/pure-min.css">
+        <link rel="stylesheet" href="/static/css/no-class.min.css">
+        <link rel="stylesheet" href="/static/css/converse.min.css">
+        <link rel="stylesheet" href="/static/css/main.css">
     </head>
     <body>
+
+        {% for message in get_flashed_messages() %}
+            <p><b>Error</b>: {{ message }}</p>
+        {% endfor %}
 
         <h1>
             <img src="img/muikku-header-text.png" alt="Muikku" />
         </h1>
 
         <div class="card">
+
+        {% if current_user.is_authenticated %}
+            <h2>Hei, {{ current_user.first_name }} {{ current_user.last_name }}!</h2>
+            <p><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></p>
+        {% else %}
+            <p><a href="{{ url_for('oauth_authorize', provider='pyramus')}}">Kirjaudu sisään</a></p>
+        {% endif %}
+
         <p>Tämä on prototyyppi Muikun tulevaa chat-toimintoa varten. Se 
             kehittyy jatkuvasti, joten älä hämmenny, jos se onkin yhtäkkiä
             eri näköinen kuin äsken. Prototyypin tarkoitus on selvittää, mitä
@@ -32,6 +44,8 @@
             Samaan pikkuikkunaan pitäisi ilmestyä lomake, johon voit syöttää tietosi.
             Huomaa, että <b>tässä prototyypissä</b> tietoturva-asiat eivät ole korkealla
             prioriteetilla, joten älä kirjoittele mitään henkilökohtaisuuksia!</p>
+
+        </div>
 
 
         <script src="js/vendor/converse.min.js"></script>
