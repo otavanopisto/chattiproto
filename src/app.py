@@ -54,10 +54,12 @@ def logout():
 def get_credentials():
     if not current_user.is_authenticated:
         abort(403)
-    user = "{0.first_name}.{0.last_name}".format(current_user)
+    user = "{}.{}".format(
+        current_user.first_name.lower(),
+        current_user.last_name.lower())
     jid = user + "@chatproto.muikkuverkko.fi"
     password = str(get_totp(b32encode(md5(user).digest())))
-    print(sys.stderr, "Secret key: {}".format(b32encode(md5(jid).digest())))
+    sys.stderr.write("Secret key: {} \n".format(b32encode(md5(user).digest())))
     return jsonify({
         "jid": jid,
         "password": password
