@@ -10,7 +10,7 @@ b {
 
 .card {
     background-color: white;
-    padding: 1em;
+    padding: 1em 3em;
     border-radius: 5px;
     border: 1px solid silver;
     box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
