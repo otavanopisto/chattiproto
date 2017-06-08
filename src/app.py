@@ -1,3 +1,4 @@
+import os
 from flask import Flask, redirect, url_for, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
@@ -11,8 +12,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'pyramus': {
-        'id': '0011ad1a-189a-4358-8bd8-00f5f7a939b8',
-        'secret': '103z31tlcSDj2qWfPV7ruRsi3717baBXVn302MdnMzxYLZibru0mqVcz74BF78oJXy8m0D98woUoUGR9'
+        'id': os.getenv('PYRAMUS_CLIENT_ID'),
+        'secret': os.getenv('PYRAMUS_CLIENT_SECRET')
     },
 }
 
