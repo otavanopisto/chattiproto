@@ -55,7 +55,7 @@ def get_credentials():
         abort(403)
     user = "{0.first_name}.{0.last_name}".format(current_user)
     jid = user + "@chatproto.muikkuverkko.fi"
-    key = str(get_totp(b32encode(md5(jid).digest)))
+    key = str(get_totp(b32encode(md5(jid).digest())))
     return {
         "jid": jid,
         "key": key
