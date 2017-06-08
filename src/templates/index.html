@@ -45,8 +45,10 @@
 
     </div>
 
+    {% if current_user.is_authenticated %}
     <script src="/static/js/vendor/converse.min.js"></script>
     <script src="/static/js/main.js"></script>
+    {% endif %}
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <!--
