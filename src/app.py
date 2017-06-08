@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import Flask, redirect, url_for, render_template, flash, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
@@ -56,6 +57,7 @@ def get_credentials():
     user = "{0.first_name}.{0.last_name}".format(current_user)
     jid = user + "@chatproto.muikkuverkko.fi"
     password = str(get_totp(b32encode(md5(jid).digest())))
+    print(sys.stderr, "Secret key: {}".format(b32encode(md5(jid).digest())))
     return jsonify({
         "jid": jid,
         "password": password
