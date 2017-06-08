@@ -5,6 +5,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user,\
     current_user
 from oauth import OAuthSignIn
 from onetimepass import get_totp
+from hashlib import md5
+from base64 import b32encode
 
 
 app = Flask(__name__)
@@ -53,7 +55,7 @@ def get_credentials():
         abort(403)
     user = "{0.first_name}.{0.last_name}".format(current_user)
     jid = user + "@chatproto.muikkuverkko.fi"
-    key = str(get_totp(jid))
+    key = str(get_totp(b32encode(md5(jid).digest)))
     return {
         "jid": jid,
         "key": key
