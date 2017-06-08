@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for, render_template, flash, abort
+from flask import Flask, redirect, url_for, render_template, flash, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
     current_user
@@ -56,10 +56,10 @@ def get_credentials():
     user = "{0.first_name}.{0.last_name}".format(current_user)
     jid = user + "@chatproto.muikkuverkko.fi"
     key = str(get_totp(b32encode(md5(jid).digest())))
-    return {
+    return jsonify({
         "jid": jid,
         "key": key
-    }
+    })
 
 
 @app.route('/authorize/<provider>')
