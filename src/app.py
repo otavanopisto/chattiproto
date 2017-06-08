@@ -1,13 +1,13 @@
 import os
-from flask import Flask, redirect, url_for, render_template, flash
+from flask import Flask, redirect, url_for, render_template, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
     current_user
 from oauth import OAuthSignIn
+from onetimepass import get_totp
 
 
 app = Flask(__name__)
-# app.config['SERVER_NAME'] = 'chatproto.muikkuverkko.fi'
 app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
@@ -45,6 +45,19 @@ def index():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/credentials')
+def get_credentials():
+    if not current_user.is_authenticated:
+        abort(403)
+    user = "{0.first_name}.{0.last_name}".format(current_user)
+    jid = user + "@chatproto.muikkuverkko.fi"
+    key = str(get_totp(jid))
+    return {
+        "jid": jid,
+        "key": key
+    }
 
 
 @app.route('/authorize/<provider>')

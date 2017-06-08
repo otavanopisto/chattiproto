@@ -47,21 +47,6 @@
 
     </div>
 
-
-    <script>
-      {% if current_user.is_authenticated %}
-      CURRENT_USER_AUTHENTICATED = true;
-      CURRENT_USER_ID = {{ current_user.external_id }};
-      CURRENT_USER_FIRST_NAME = "{{ current_user.first_name }}";
-      CURRENT_USER_LAST_NAME = "{{ current_user.last_name }}";
-      {% else %}
-      CURRENT_USER_AUTHENTICATED = false;
-      CURRENT_USER_ID = null;
-      CURRENT_USER_FIRST_NAME = null;
-      CURRENT_USER_LAST_NAME = null;
-      {% endif %}
-    </script>
-
     <script src="/static/js/vendor/converse.min.js"></script>
     <script src="/static/js/main.js"></script>
 
