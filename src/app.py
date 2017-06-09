@@ -63,7 +63,7 @@ def get_credentials():
     jid = user + "@chatproto.muikkuverkko.fi"
 
     timestamp = int(round(time() * 1000))
-    payload = timestamp + "," + user
+    payload = "{},{}".format(timestamp, user)
     signing_key = SigningKey(signing_key_hex, HexEncoder)
     signed = signing_key.sign(payload)
     password = signed.message + "," + HexEncoder.encode(signed.signature)
@@ -108,4 +108,4 @@ def oauth_callback(provider):
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(debug=False)
+    app.run(debug=True)
