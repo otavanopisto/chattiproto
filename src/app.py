@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 from flask import Flask, redirect, url_for, render_template, flash, abort, jsonify
@@ -8,7 +9,11 @@ from oauth import OAuthSignIn
 from onetimepass import get_totp
 from hashlib import md5
 from base64 import b32encode
+from time import time
+from nacl.encoding import HexEncoder
+from nacl.signing import SigningKey
 
+signing_key_hex = os.getenv('SIGNING_KEY_HEX')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top secret!'
@@ -54,12 +59,16 @@ def logout():
 def get_credentials():
     if not current_user.is_authenticated:
         abort(403)
-    user = "{}.{}".format(
-        current_user.first_name.lower(),
-        current_user.last_name.lower())
+    user = "{0.first_name}.{0.last_name}".format(current_user)
     jid = user + "@chatproto.muikkuverkko.fi"
-    password = str(get_totp(b32encode(md5(user).digest())))
-    sys.stderr.write("Secret key: {} \n".format(b32encode(md5(user).digest())))
+
+    timestamp = int(round(time() * 1000))
+    payload = timestamp + "," + user
+    signing_key = SigningKey(signing_key_hex, HexEncoder)
+    signed = signing_key.sign(payload)
+    password = signed.message + "," + HexEncoder.encode(signed.signature)
+
+    sys.stderr.write("Outgoing password: {} \n".format(password))
     return jsonify({
         "jid": jid,
         "password": password
